@@ -1,0 +1,27 @@
+.podcastCard {
+  text-decoration: none;
+  color: black;
+}
+
+.searchContainer {
+}
+
+.podcastList {
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+}
+
+.podcastCardContainer {
+  width: 240px;
+  list-style-type: none;
+  transition: ease-in-out 0.25s all;
+}
+
+.podcastCardContainer:hover {
+  transform: scale(1.05);
+}

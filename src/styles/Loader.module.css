@@ -1,0 +1,45 @@
+@import url(./colors.css);
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  place-content: center;
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.loaderGone {
+  width: 0;
+  height: 0;
+}
+
+.loaderInner {
+  position: absolute;
+  background-color: var(--primary-color);
+  border-radius: 100%;
+  opacity: 0.6;
+
+  animation: 2s ease-in-out 1s infinite running loaderGone;
+}
+
+.loaderOuter {
+  position: absolute;
+  background-color: var(--primary-color);
+  border-radius: 100%;
+  opacity: 0.6;
+
+  animation: 2s ease-in-out 0s infinite running loaderGone;
+}
+
+@keyframes loaderGone {
+  from {
+    height: 30px;
+    width: 30px;
+  }
+  to {
+    width: 0;
+    height: 0;
+  }
+}
