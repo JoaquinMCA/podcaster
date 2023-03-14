@@ -9,9 +9,9 @@
 .podcastList {
   padding: 0;
   display: flex;
-  gap: 1.5rem;
+  gap: 4rem 2rem;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   max-width: 1200px;
 }

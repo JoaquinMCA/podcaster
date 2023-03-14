@@ -27,9 +27,30 @@
   object-fit: cover;
 }
 
+.imgPlaceholder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
+  opacity: 1;
+  animation: 2s linear infinite running imgPlaceHolderAnimation;
+}
+
 .podcastTitle {
   margin: 0;
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 0.25rem;
+}
+
+@keyframes imgPlaceHolderAnimation {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
 }

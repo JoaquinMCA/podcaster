@@ -20,8 +20,7 @@
   background-color: var(--primary-color);
   border-radius: 100%;
   opacity: 0.6;
-
-  animation: 2s ease-in-out 1s infinite running loaderGone;
+  animation: 2s ease-in-out 1s infinite running loaderAnimation;
 }
 
 .loaderOuter {
@@ -29,11 +28,10 @@
   background-color: var(--primary-color);
   border-radius: 100%;
   opacity: 0.6;
-
-  animation: 2s ease-in-out 0s infinite running loaderGone;
+  animation: 2s ease-in-out 0s infinite running loaderAnimation;
 }
 
-@keyframes loaderGone {
+@keyframes loaderAnimation {
   from {
     height: 30px;
     width: 30px;

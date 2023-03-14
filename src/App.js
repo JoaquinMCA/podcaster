@@ -1,10 +1,10 @@
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./pages/RootLayout";
 import PodcastList from "./pages/PodcastList";
 import Podcast from "./pages/Podcast";
 import Episode from "./pages/Episode";
 import EpisodeList from "./pages/EpisodeList";
+import { LoadingContextProvider } from "./store/loading-context";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +28,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <LoadingContextProvider>
+      <RouterProvider router={router} />
+    </LoadingContextProvider>
+  );
 }
 
 export default App;
