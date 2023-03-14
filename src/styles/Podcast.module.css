@@ -1,0 +1,14 @@
+.podcastContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailsSection {
+  width: calc(40% - 2rem);
+  margin-right: 2rem;
+}
+
+.outletSection {
+  width: 60%;
+}

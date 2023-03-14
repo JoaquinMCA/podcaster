@@ -1,0 +1,5 @@
+.main {
+  height: calc(100dvh - 60px - 2rem);
+  width: calc(100% - 2rem);
+  padding: 1rem;
+}
