@@ -16,7 +16,7 @@ function Image(props) {
     >
       <img
         src={props.src}
-        alt={props.alt || "alt"}
+        alt={imgLoaded ? props.alt || "alt" : null}
         loading="lazy"
         onLoad={handleImgLoaded}
       />

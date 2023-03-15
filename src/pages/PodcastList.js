@@ -11,7 +11,7 @@ import classes from "../styles/PodcastList.module.css";
 
 function PodcastList() {
   const { loadingHandler, setFiltering } = useContext(LoadingContext);
-  const { checkPodcastsStorage, podcasts, setPodcastsHandler } =
+  const { checkPodcastsStorage, podcasts, setPodcasts, setSelectedPodcast } =
     useContext(PodcastsContext);
   const url = "list/toppodcasts/limit=100/genre=1310/json";
   const { data, loading, error, sendRequest } = useFetch();
@@ -63,6 +63,7 @@ function PodcastList() {
    * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) or fetch it if necessary.
    */
   useEffect(() => {
+    setSelectedPodcast(null);
     loadingHandler(true);
     if (podcasts?.length > 0) {
       // No need to refetch, use available localStorage podcasts data
@@ -94,7 +95,7 @@ function PodcastList() {
         description: podcast.summary.label,
       }));
 
-      setPodcastsHandler(podcastsParsed || []);
+      setPodcasts(podcastsParsed || []);
     }
   }, [data, loadingHandler, loading]);
 

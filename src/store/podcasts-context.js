@@ -20,14 +20,6 @@ export const PodcastsContextProvider = (props) => {
 
   const [selectedPodcast, setSelectedPodcast] = useState();
 
-  const setPodcastsHandler = (podcastsArray) => {
-    setPodcasts(podcastsArray);
-  };
-
-  const setSelectedPodcastHandler = (podcastObject) => {
-    setSelectedPodcast(podcastObject);
-  };
-
   /**
    * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) and reset if so.
    */
@@ -68,15 +60,30 @@ export const PodcastsContextProvider = (props) => {
     }
   }, [podcasts, storedPodcastsParsed]);
 
+  useEffect(() => {
+    if (podcasts && selectedPodcast) {
+      const podcastIndex = podcasts.findIndex(
+        (podcast) => podcast.id === selectedPodcast.id
+      );
+
+      if (podcastIndex > -1) {
+        const updatedPodcasts = podcasts;
+        updatedPodcasts[podcastIndex] = selectedPodcast;
+
+        localStorage.setItem("podcasts", JSON.stringify(updatedPodcasts));
+      }
+    }
+  }, [podcasts, selectedPodcast]);
+
   return (
     <PodcastsContext.Provider
       value={{
         checkPodcastsStorage: checkPodcastsStorage,
         storedPodcastsParsed: storedPodcastsParsed,
         podcasts: podcasts,
-        setPodcastsHandler: setPodcastsHandler,
+        setPodcasts: setPodcasts,
         selectedPodcast: selectedPodcast,
-        setSelectedPodcastHandler: setSelectedPodcastHandler,
+        setSelectedPodcast: setSelectedPodcast,
       }}
     >
       {props.children}
