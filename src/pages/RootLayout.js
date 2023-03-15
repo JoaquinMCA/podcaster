@@ -1,8 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
 import Header from "../components/Header";
 import LoadingContext from "../store/loading-context";
+import { IconButton } from "@mui/material";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 import classes from "../styles/RootLayout.module.css";
 
@@ -12,14 +14,21 @@ function RootLayout() {
   const ctx = useContext(LoadingContext);
   const location = useLocation();
 
-  const handleShowScrollButton = () => {
+  const checkShowScrollButton = useCallback(() => {
+    return (
+      mainRef.current?.scrollHeight > mainRef.current?.clientHeight &&
+      location.pathname === "/"
+    );
+  }, [location.pathname]);
+
+  const handleShowScrollButton = useCallback(() => {
     const showingButton = checkShowScrollButton();
     setShowScrollButton(showingButton);
-  };
+  }, [checkShowScrollButton]);
 
   useEffect(() => {
     handleShowScrollButton();
-  }, [ctx.loading, location]);
+  }, [ctx.loading, ctx.filtering, location, handleShowScrollButton]);
 
   useEffect(() => {
     window.addEventListener("resize", handleShowScrollButton, false);
@@ -27,13 +36,6 @@ function RootLayout() {
       window.removeEventListener("resize", handleShowScrollButton, false);
     };
   }, [handleShowScrollButton]);
-
-  const checkShowScrollButton = () => {
-    return (
-      mainRef.current?.scrollHeight > mainRef.current?.clientHeight &&
-      location.pathname === "/"
-    );
-  };
 
   const scrollToTop = () => {
     mainRef.current.scroll({
@@ -49,9 +51,13 @@ function RootLayout() {
         <Outlet />
         {showScrollButton && (
           <div className={classes.toTopButtonContainer}>
-            <button onClick={scrollToTop} className={classes.toTopButton}>
-              To TOp!
-            </button>
+            <IconButton
+              onClick={scrollToTop}
+              color="primary"
+              aria-label="Go top"
+            >
+              <ArrowUpwardIcon />
+            </IconButton>
           </div>
         )}
       </main>

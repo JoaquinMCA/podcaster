@@ -6,14 +6,9 @@ const LoadingContext = createContext({
   loadingHandler: (loading) => {},
 });
 
-const PodcastsContext = createContext({
-  podcasts: [],
-  podcastsUpdated: null,
-});
-
 export const LoadingContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
-  const [testing, setTesting] = useState(3);
+  const [filtering, setFiltering] = useState(false);
 
   const loadingHandler = (loading) => {
     setLoading(loading);
@@ -23,8 +18,9 @@ export const LoadingContextProvider = (props) => {
     <LoadingContext.Provider
       value={{
         loading: loading,
-        testing: testing,
         loadingHandler: loadingHandler,
+        filtering: filtering,
+        setFiltering: setFiltering,
       }}
     >
       {props.children}

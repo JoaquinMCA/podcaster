@@ -7,6 +7,9 @@ const useFetch = () => {
   const [errors, setErrors] = useState([]);
   const [reqType, setReqType] = useState();
 
+  /**
+   * Single request.
+   */
   const sendRequest = useCallback((url, requestType) => {
     setLoading(true);
     setError(false);
@@ -30,13 +33,15 @@ const useFetch = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  /**
+   * Multiple requests simultaneously.
+   */
   const sendRequests = useCallback((urls, requestType) => {
     setLoading(true);
     setError(false);
     setReqType(requestType);
 
     const promises = [];
-    let i = 0;
     urls.map((url) => {
       const promise = fetch(url, {
         headers: {
@@ -57,7 +62,7 @@ const useFetch = () => {
           if (res?.error) {
             setError(true);
             setErrors((prevValue) => {
-              return [...prevValue, error];
+              return [...prevValue, res.error];
             });
           } else {
             return res;
@@ -71,7 +76,7 @@ const useFetch = () => {
         });
 
       promises.push(promise);
-      i++;
+      return null;
     });
 
     Promise.all(promises)

@@ -7,14 +7,14 @@ function PodcastCard(props) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const handleImgLoaded = useCallback(() => {
     setImgLoaded(true);
-  });
+  }, []);
 
   return (
     <div className={classes.podcastCardContainer}>
       <div className={classes.podcastImageContainer}>
         <img
           src={props.podcast.img}
-          alt="podcast-image"
+          alt="podcast"
           loading="lazy"
           onLoad={handleImgLoaded}
         />
