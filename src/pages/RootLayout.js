@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import Header from "../components/Header";
 import LoadingContext from "../store/loading-context";
@@ -10,25 +10,29 @@ function RootLayout() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const mainRef = useRef(null);
   const ctx = useContext(LoadingContext);
+  const location = useLocation();
 
-  const handleResize = () => {
+  const handleShowScrollButton = () => {
     const showingButton = checkShowScrollButton();
     setShowScrollButton(showingButton);
   };
 
   useEffect(() => {
-    handleResize();
-  }, [ctx.loading]);
+    handleShowScrollButton();
+  }, [ctx.loading, location]);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize, false);
+    window.addEventListener("resize", handleShowScrollButton, false);
     return () => {
-      window.removeEventListener("resize", handleResize, false);
+      window.removeEventListener("resize", handleShowScrollButton, false);
     };
-  }, [handleResize]);
+  }, [handleShowScrollButton]);
 
   const checkShowScrollButton = () => {
-    return mainRef.current?.scrollHeight > mainRef.current?.clientHeight;
+    return (
+      mainRef.current?.scrollHeight > mainRef.current?.clientHeight &&
+      location.pathname === "/"
+    );
   };
 
   const scrollToTop = () => {
