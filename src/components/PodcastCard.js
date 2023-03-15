@@ -7,6 +7,7 @@ function PodcastCard(props) {
   return (
     <div className={classes.podcastCardContainer}>
       <Image
+        alt="podcast"
         src={props.podcast.img}
         extraClasses={classes.podcastImageContainer}
       ></Image>

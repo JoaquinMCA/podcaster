@@ -1,56 +1,74 @@
-.podcastCardContainer {
-  position: relative;
-  padding-top: 32px;
-}
+@import url(./colors.css);
 
 .podcastCard {
-  padding-top: 72px;
-  text-align: center;
-}
-
-.podcastImageContainer {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  overflow: hidden;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  left: calc(50% - 40px);
 }
 
-.podcastImageContainer > img {
+.podcastDetails {
+  display: flex;
+  flex-flow: column;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  align-items: center;
+  justify-content: center;
 }
 
-.imgPlaceholder {
-  position: absolute;
+.podcastDetailsSection {
   width: 100%;
-  height: 100%;
-  background-color: lightgrey;
-  opacity: 1;
-  animation: 2s linear infinite running imgPlaceHolderAnimation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.podcastDetailsImage {
+  width: 150px;
+  height: 150px;
+  position: relative;
+}
+
+.podcastTextSection {
+  text-align: start;
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-flow: column;
+  width: 100%;
+  text-decoration: none;
+  color: black;
 }
 
 .podcastTitle {
-  margin: 0;
-  text-transform: uppercase;
+  width: 100%;
+  text-align: start;
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
   font-weight: bold;
-  margin-bottom: 0.25rem;
+  font-size: 1.2rem;
 }
 
-@keyframes imgPlaceHolderAnimation {
-  0% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.4;
-  }
+.podcastAuthor {
+  width: 100%;
+  text-align: start;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-style: italic;
+  text-decoration: none;
+}
+
+.podcastDescriptionTitle {
+  width: 100%;
+  text-align: start;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.podcastDescription {
+  width: 100%;
+  text-align: start;
+  font-size: 0.8rem;
+  font-style: italic;
 }
