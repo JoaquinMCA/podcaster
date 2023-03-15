@@ -1,25 +1,16 @@
-import { useCallback, useState } from "react";
 import Card from "./Card";
+import Image from "./Image";
 
 import classes from "../styles/PodcastCard.module.css";
 
 function PodcastCard(props) {
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const handleImgLoaded = useCallback(() => {
-    setImgLoaded(true);
-  }, []);
-
   return (
     <div className={classes.podcastCardContainer}>
-      <div className={classes.podcastImageContainer}>
-        <img
-          src={props.podcast.img}
-          alt="podcast"
-          loading="lazy"
-          onLoad={handleImgLoaded}
-        />
-        {!imgLoaded && <div className={classes.imgPlaceholder}></div>}
-      </div>
+      <Image
+        src={props.podcast.img}
+        extraClasses={classes.podcastImageContainer}
+      ></Image>
+
       <Card extraClasses={classes.podcastCard}>
         <div className={classes.podcastTitle}>{props.podcast.name}</div>
         <div>Author: {props.podcast.author}</div>

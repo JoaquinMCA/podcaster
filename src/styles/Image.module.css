@@ -1,0 +1,27 @@
+.imageContainer > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgPlaceholder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
+  opacity: 1;
+  animation: 2s linear infinite running imgPlaceHolderAnimation;
+}
+
+
+@keyframes imgPlaceHolderAnimation {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}

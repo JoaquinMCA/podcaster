@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import PodcastDetails from "./PodcastDetails";
+import PodcastDetails from "../components/PodcastDetails";
 
 import classes from "../styles//Podcast.module.css";
 
