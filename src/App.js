@@ -6,6 +6,7 @@ import Podcast from "./pages/Podcast";
 import Episode from "./pages/Episode";
 import EpisodeList from "./pages/EpisodeList";
 import { LoadingContextProvider } from "./store/loading-context";
+import { PodcastsContextProvider } from "./store/podcasts-context";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -51,7 +52,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <LoadingContextProvider>
-        <RouterProvider router={router} />
+        <PodcastsContextProvider>
+          <RouterProvider router={router} />
+        </PodcastsContextProvider>
       </LoadingContextProvider>
     </ThemeProvider>
   );
