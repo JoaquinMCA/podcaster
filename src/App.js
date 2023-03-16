@@ -1,14 +1,15 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import RootLayout from "./pages/RootLayout";
-import PodcastList from "./pages/PodcastList";
-import Podcast from "./pages/Podcast";
 import Episode from "./pages/Episode";
 import EpisodeList from "./pages/EpisodeList";
+import Podcast from "./pages/Podcast";
+import PodcastList from "./pages/PodcastList";
+import RootLayout from "./pages/RootLayout";
 import { LoadingContextProvider } from "./store/loading-context";
 import { PodcastsContextProvider } from "./store/podcasts-context";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import NotFound from "./pages/NotFound";
 
 const theme = createTheme({
   palette: {
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
         ],
       },
     ],
+    errorElement: <NotFound></NotFound>,
   },
 ]);
 
