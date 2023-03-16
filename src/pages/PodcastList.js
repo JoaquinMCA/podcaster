@@ -1,17 +1,17 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { TextField } from "@mui/material";
 import PodcastCard from "../components/PodcastCard";
 import useFetch from "../hooks/useFetch";
 import LoadingContext from "../store/loading-context";
 import PodcastsContext from "../store/podcasts-context";
-import { TextField } from "@mui/material";
 
 import classes from "../styles/PodcastList.module.css";
 
 function PodcastList() {
   const { loadingHandler, setFiltering } = useContext(LoadingContext);
-  const { checkPodcastsStorage, podcasts, setPodcasts, setSelectedPodcast } =
+  const { podcasts, checkPodcastsStorage, setPodcasts, setSelectedPodcast } =
     useContext(PodcastsContext);
   const url = "list/toppodcasts/limit=100/genre=1310/json";
   const { data, loading, error, sendRequest } = useFetch();
@@ -72,14 +72,14 @@ function PodcastList() {
       // Fetch podcasts data
       getPodcastData();
     }
-  }, [podcasts, getPodcastData]);
+  }, [podcasts, getPodcastData, loadingHandler, setSelectedPodcast]);
 
   /**
    * Update loading context.
    */
   useEffect(() => {
     loadingHandler(loading);
-  }, [loadingHandler, loading]);
+  }, [loading, loadingHandler]);
 
   /**
    * Parse fetched data.
@@ -97,14 +97,7 @@ function PodcastList() {
 
       setPodcasts(podcastsParsed || []);
     }
-  }, [data, loadingHandler, loading]);
-
-  /**
-   * Fetch podcast list.
-   */
-  const selectPodcast = useCallback((podcast) => {
-    localStorage.setItem("selectedPodcast", JSON.stringify(podcasts));
-  }, []);
+  }, [data, loading, loadingHandler, setPodcasts]);
 
   return (
     <>
@@ -129,7 +122,9 @@ function PodcastList() {
             <Link
               to={`podcast/${podcast.id}`}
               className={classes.podcastCard}
-              onClick={selectPodcast(podcast)}
+              onClick={() => {
+                setSelectedPodcast(podcast);
+              }}
             >
               <PodcastCard podcast={podcast}></PodcastCard>
             </Link>

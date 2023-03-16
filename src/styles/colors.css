@@ -1,4 +1,7 @@
 :root {
   --primary-color: rgb(77, 151, 208);
+  --primary-dark-color: #356991;
   --border-color: lightgray;
+  --background-lightgray-color: #f6f6f6;
+  --white-color: white;
 }

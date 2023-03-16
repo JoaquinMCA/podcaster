@@ -4,6 +4,10 @@ import classes from "../styles/Image.module.css";
 
 function Image(props) {
   const [imgLoaded, setImgLoaded] = useState(false);
+
+  /**
+   * Callback to control the onLoad event of the img.
+   */
   const handleImgLoaded = useCallback(() => {
     setImgLoaded(true);
   }, []);

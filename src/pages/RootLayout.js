@@ -11,9 +11,12 @@ import classes from "../styles/RootLayout.module.css";
 function RootLayout() {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const mainRef = useRef(null);
-  const ctx = useContext(LoadingContext);
+  const {loading, filtering} = useContext(LoadingContext);
   const location = useLocation();
 
+  /**
+   * Checks if the go to top button for the podcast list has to be shown or not.
+   */
   const checkShowScrollButton = useCallback(() => {
     return (
       mainRef.current?.scrollHeight > mainRef.current?.clientHeight &&
@@ -21,15 +24,24 @@ function RootLayout() {
     );
   }, [location.pathname]);
 
+  /**
+   * Shows/hides scroll to top button.
+   */
   const handleShowScrollButton = useCallback(() => {
     const showingButton = checkShowScrollButton();
     setShowScrollButton(showingButton);
   }, [checkShowScrollButton]);
 
+  /**
+   * Checks and shows/hides scroll to top button.
+   */
   useEffect(() => {
     handleShowScrollButton();
-  }, [ctx.loading, ctx.filtering, location, handleShowScrollButton]);
+  }, [loading, filtering, location, handleShowScrollButton]);
 
+  /**
+   * Checks if there is scroll in the podcast list when window resizes.
+   */
   useEffect(() => {
     window.addEventListener("resize", handleShowScrollButton, false);
     return () => {
@@ -37,6 +49,9 @@ function RootLayout() {
     };
   }, [handleShowScrollButton]);
 
+  /**
+   * Returns to the top of the podcasts list.
+   */
   const scrollToTop = () => {
     mainRef.current.scroll({
       top: 0,

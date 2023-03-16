@@ -15,15 +15,15 @@ function PodcastDetails(props) {
   const { data, loading, sendRequest } = useFetch();
   const { loadingHandler } = useContext(LoadingContext);
   const {
-    checkPodcastsStorage,
     podcasts,
     selectedPodcast,
+    checkPodcastsStorage,
     setSelectedPodcast,
   } = useContext(PodcastsContext);
   const navigate = useNavigate();
 
   /**
-   * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) or fetch it if necessary.
+   * Check storage when loading component.
    */
   useEffect(() => {
     checkPodcastsStorage();
@@ -41,19 +41,18 @@ function PodcastDetails(props) {
    */
   useEffect(() => {
     loadingHandler(true);
+
     if (podcasts) {
       if (podcasts.length === 0) {
         // No podcasts data, return to podcast-list
-        navigate(-1);
+        navigate("/");
       } else {
         let selectedPodcastFound = podcasts?.find(
           (podcast) => podcast.id === params.podcastId
         );
 
-        if (selectedPodcast?.episodes) {
+        if (selectedPodcastFound?.episodes) {
           setSelectedPodcast(selectedPodcastFound);
-          console.log("sectedPodcast");
-          console.log(selectedPodcast);
 
           // No need to refetch, use available localStorage podcasts data
           loadingHandler(false);
@@ -63,7 +62,14 @@ function PodcastDetails(props) {
         }
       }
     }
-  }, [podcasts, getPodcastDetailsData, setSelectedPodcast]);
+  }, [
+    podcasts,
+    params.podcastId,
+    loadingHandler,
+    navigate,
+    getPodcastDetailsData,
+    setSelectedPodcast,
+  ]);
 
   /**
    * Parse fetched data.
@@ -71,14 +77,16 @@ function PodcastDetails(props) {
   useEffect(() => {
     if (data) {
       loadingHandler(loading);
-      let i = 0;
-      const podcastData = data?.results[0];
+
       let selectedPodcast = podcasts.find(
         (podcast) => podcast.id === params.podcastId
       );
 
+      if (data?.results[0] && !data.results[0].episodeUrl) {
+        data.results.shift();
+      }
+
       const episodesParsed = data?.results?.map((episode) => {
-        i++;
         return {
           id: episode.trackId,
           name: episode.trackName,
@@ -90,10 +98,21 @@ function PodcastDetails(props) {
         };
       });
 
-      selectedPodcast = { ...selectedPodcast, episodes: episodesParsed };
+      selectedPodcast = {
+        ...selectedPodcast,
+        episodesCount: data.resultCount || episodesParsed.length,
+        episodes: episodesParsed,
+      };
       setSelectedPodcast(selectedPodcast);
     }
-  }, [data, loadingHandler, loading, setSelectedPodcast]);
+  }, [
+    data,
+    loading,
+    params.podcastId,
+    podcasts,
+    setSelectedPodcast,
+    loadingHandler,
+  ]);
 
   return (
     <Card extraClasses={classes.podcastCard}>

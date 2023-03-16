@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
 
+/**
+ * Hook to fetch data from APIs.
+ */
 const useFetch = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);

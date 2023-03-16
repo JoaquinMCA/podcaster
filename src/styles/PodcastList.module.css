@@ -16,7 +16,7 @@
 .searchResults {
   font-weight: bold;
   font-size: 1.2rem;
-  color: white;
+  color: var(--white-color);
   background-color: var(--primary-color);
   padding: 1px 4px;
   margin-right: 1rem;

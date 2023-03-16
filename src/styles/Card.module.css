@@ -1,5 +1,7 @@
+@import url(./colors.css);
+
 .card {
-  background: white;
+  background: var(--white-color);
   padding: 1rem;
   border-radius: 4px;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);

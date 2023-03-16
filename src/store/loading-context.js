@@ -1,11 +1,17 @@
 import { createContext, useState } from "react";
 
+/**
+ * Context to store the loading state of the aplication.
+ */
 const LoadingContext = createContext({
   loading: false,
   testing: 3,
   loadingHandler: (loading) => {},
 });
 
+/**
+ * Provider for loading context.
+ */
 export const LoadingContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const [filtering, setFiltering] = useState(false);

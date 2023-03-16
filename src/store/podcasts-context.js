@@ -1,8 +1,18 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 
+/**
+ * Context to store data about podcasts (including episodes) and the selected podcast and episode.
+ */
 const PodcastsContext = createContext({
   podcasts: [],
   selectedPodcast: null,
+  selectedEpisode: null,
+  storedPodcastsParsed: [],
+  setPodcasts: () => {},
+  setSelectedPodcast: () => {},
+  setSelectedEpisode: () => {},
+  checkPodcastsStorage: () => {},
+  checkEpisodeStorage: () => {},
 });
 
 /**
@@ -14,11 +24,15 @@ const calcDaysDiff = (date1, date2) => {
   return dayDiff;
 };
 
+/**
+ * Provider for PodcastContext.
+ */
 export const PodcastsContextProvider = (props) => {
   const [podcasts, setPodcasts] = useState();
   const [storedPodcastsParsed, setStoredPodcastsParsed] = useState();
 
   const [selectedPodcast, setSelectedPodcast] = useState();
+  const [selectedEpisode, setSelectedEpisode] = useState();
 
   /**
    * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) and reset if so.
@@ -48,7 +62,20 @@ export const PodcastsContextProvider = (props) => {
   }, []);
 
   /**
-   * Update localStorage.
+   * Checks if there is a selected episode in localStorage.
+   */
+  const checkEpisodeStorage = useCallback(() => {
+    const storedSelectedEpisode = localStorage.getItem("selectedEpisode");
+    const storedSelectedEpisodeParsed = storedSelectedEpisode
+      ? JSON.parse(storedSelectedEpisode)
+      : null;
+    if (storedSelectedEpisodeParsed) {
+      setSelectedEpisode(storedSelectedEpisodeParsed);
+    }
+  }, []);
+
+  /**
+   * Update podcasts in localStorage.
    */
   useEffect(() => {
     if (
@@ -60,6 +87,9 @@ export const PodcastsContextProvider = (props) => {
     }
   }, [podcasts, storedPodcastsParsed]);
 
+  /**
+   * Update podcasts in localStorage, when episodes are fetched.
+   */
   useEffect(() => {
     if (podcasts && selectedPodcast) {
       const podcastIndex = podcasts.findIndex(
@@ -75,15 +105,42 @@ export const PodcastsContextProvider = (props) => {
     }
   }, [podcasts, selectedPodcast]);
 
+  /**
+   * Update selected podcast in localStorage.
+   */
+  useEffect(() => {
+    if (selectedPodcast) {
+      localStorage.setItem("selectedPodcast", JSON.stringify(selectedPodcast));
+    } else {
+      localStorage.removeItem("selectedPodcast");
+    }
+  }, [selectedPodcast]);
+
+  /**
+   * Update selected episode in localStorage.
+   */
+  useEffect(() => {
+    if (selectedEpisode) {
+      console.log('seteando selected episode');
+      
+      localStorage.setItem("selectedEpisode", JSON.stringify(selectedEpisode));
+    } else {
+      localStorage.removeItem("selectedEpisode");
+    }
+  }, [selectedEpisode]);
+
   return (
     <PodcastsContext.Provider
       value={{
-        checkPodcastsStorage: checkPodcastsStorage,
-        storedPodcastsParsed: storedPodcastsParsed,
         podcasts: podcasts,
         setPodcasts: setPodcasts,
         selectedPodcast: selectedPodcast,
         setSelectedPodcast: setSelectedPodcast,
+        selectedEpisode: selectedEpisode,
+        setSelectedEpisode: setSelectedEpisode,
+        checkPodcastsStorage: checkPodcastsStorage,
+        storedPodcastsParsed: storedPodcastsParsed,
+        checkEpisodeStorage: checkEpisodeStorage,
       }}
     >
       {props.children}
