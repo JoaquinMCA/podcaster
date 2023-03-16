@@ -40,9 +40,8 @@ function PodcastDetails(props) {
    * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) or fetch it if necessary.
    */
   useEffect(() => {
-    loadingHandler(true);
-
     if (podcasts) {
+      loadingHandler(true);
       if (podcasts.length === 0) {
         // No podcasts data, return to podcast-list
         navigate("/");
@@ -76,7 +75,7 @@ function PodcastDetails(props) {
    */
   useEffect(() => {
     if (data) {
-      loadingHandler(loading);
+      loadingHandler(false);
 
       let selectedPodcast = podcasts.find(
         (podcast) => podcast.id === params.podcastId

@@ -1,11 +1,10 @@
 import { createContext, useState } from "react";
 
 /**
- * Context to store the loading state of the aplication.
+ * Content to store the loading state of the aplication.
  */
 const LoadingContext = createContext({
   loading: false,
-  testing: 3,
   loadingHandler: (loading) => {},
 });
 

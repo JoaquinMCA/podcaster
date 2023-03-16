@@ -121,8 +121,6 @@ export const PodcastsContextProvider = (props) => {
    */
   useEffect(() => {
     if (selectedEpisode) {
-      console.log('seteando selected episode');
-      
       localStorage.setItem("selectedEpisode", JSON.stringify(selectedEpisode));
     } else {
       localStorage.removeItem("selectedEpisode");
