@@ -5,12 +5,12 @@ import Header from "./Header";
 
 const notLoading = {
   loading: false,
-  loadingHandler: (loading) => {},
+  loadingHandler: () => {},
 };
 
 const loading = {
   loading: true,
-  loadingHandler: (loading) => {},
+  loadingHandler: () => {},
 };
 
 describe("Header component", () => {

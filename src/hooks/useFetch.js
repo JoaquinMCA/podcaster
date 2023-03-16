@@ -31,7 +31,10 @@ const useFetch = () => {
         }
       })
       .catch((err) => {
-        setError(true);
+        setError(true);  
+        setErrors((prevValue) => {
+          return [...prevValue, err];
+        });
       })
       .finally(() => setLoading(false));
   }, []);

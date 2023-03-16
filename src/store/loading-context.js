@@ -5,7 +5,7 @@ import { createContext, useState } from "react";
  */
 const LoadingContext = createContext({
   loading: false,
-  loadingHandler: (loading) => {},
+  loadingHandler: () => {},
 });
 
 /**

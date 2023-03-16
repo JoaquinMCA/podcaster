@@ -19,8 +19,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "npx eslint ./src/.",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage",
+    "e2e": "npx cypress run",
+    "e2e:watch": "npx cypress open",
     "eject": "react-scripts eject"
   },
   "proxy": "https://itunes.apple.com/us/rss",
@@ -43,6 +46,8 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^12.8.1"
+    "cypress": "^12.8.1",
+    "eslint": "^8.36.0",
+    "eslint-plugin-react": "^7.32.2"
   }
 }

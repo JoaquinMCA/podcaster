@@ -9,7 +9,7 @@ import Image from "./Image";
 
 import classes from "../styles/PodcastDetails.module.css";
 
-function PodcastDetails(props) {
+function PodcastDetails() {
   const params = useParams();
   const url = `details/lookup?id=${params.podcastId}&media=podcast&entity=podcastEpisode&limit=2000`;
   const { data, loading, sendRequest } = useFetch();

@@ -1,5 +1,5 @@
 describe("Complete app navigation", () => {
-  it("Navigate through the app", () => {
+  it("Navigate through the app and check elements", () => {
     cy.visit("http://localhost:3000/");
     // Check if main header link is present
     cy.get("#root > h1 > a").contains("Podcaster");
