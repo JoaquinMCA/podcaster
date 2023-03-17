@@ -13,6 +13,7 @@ const PodcastsContext = createContext({
   setSelectedEpisode: () => {},
   checkPodcastsStorage: () => {},
   checkEpisodeStorage: () => {},
+  savePodcasts: () => {},
 });
 
 /**
@@ -38,6 +39,7 @@ export const PodcastsContextProvider = (props) => {
    * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) and reset if so.
    */
   const checkPodcastsStorage = useCallback(() => {
+
     const storedPodcasts = localStorage.getItem("podcasts");
     const storedPodcastsParsed = storedPodcasts
       ? JSON.parse(storedPodcasts)
@@ -55,9 +57,11 @@ export const PodcastsContextProvider = (props) => {
       setStoredPodcastsParsed(storedPodcastsParsed);
       // No need to refetch, use available localStorage podcasts data
       setPodcasts(storedPodcastsParsed);
+      return storedPodcastsParsed;
     } else {
       setPodcasts([]);
       setStoredPodcastsParsed([]);
+      return [];
     }
   }, []);
 
@@ -75,17 +79,17 @@ export const PodcastsContextProvider = (props) => {
   }, []);
 
   /**
-   * Update podcasts in localStorage.
+   * Save podcasts in localStorage, only if they are different to the already saved.
    */
-  useEffect(() => {
+  const savePodcasts = useCallback((podcastsToSave) => {
     if (
-      podcasts?.length > 0 &&
-      JSON.stringify(podcasts) !== JSON.stringify(storedPodcastsParsed)
+      podcastsToSave?.length > 0 &&
+      JSON.stringify(podcastsToSave) !== JSON.stringify(storedPodcastsParsed)
     ) {
-      localStorage.setItem("podcasts", JSON.stringify(podcasts));
+      localStorage.setItem("podcasts", JSON.stringify(podcastsToSave));
       localStorage.setItem("podcastsUpdateDate", new Date());
     }
-  }, [podcasts, storedPodcastsParsed]);
+  }, []);
 
   /**
    * Update podcasts in localStorage, when episodes are fetched.
@@ -139,6 +143,7 @@ export const PodcastsContextProvider = (props) => {
         checkPodcastsStorage: checkPodcastsStorage,
         storedPodcastsParsed: storedPodcastsParsed,
         checkEpisodeStorage: checkEpisodeStorage,
+        savePodcasts: savePodcasts,
       }}
     >
       {props.children}

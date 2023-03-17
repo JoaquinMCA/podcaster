@@ -11,11 +11,17 @@ import classes from "../styles/PodcastList.module.css";
 
 function PodcastList() {
   const { loadingHandler, setFiltering } = useContext(LoadingContext);
-  const { podcasts, checkPodcastsStorage, setPodcasts, setSelectedPodcast } =
-    useContext(PodcastsContext);
+  const {
+    checkPodcastsStorage,
+    savePodcasts,
+    setPodcasts,
+    setSelectedPodcast,
+  } = useContext(PodcastsContext);
   const url = "list/toppodcasts/limit=100/genre=1310/json";
   const { data, loading, error, sendRequest } = useFetch();
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [currentPodcasts, setCurrentPodcasts] = useState("");
 
   /**
    * Launchs the filtering setting the search term.
@@ -43,7 +49,7 @@ function PodcastList() {
     );
   };
 
-  const filteredPodcasts = filterPodcasts(podcasts, searchTerm);
+  const filteredPodcasts = filterPodcasts(currentPodcasts, searchTerm);
 
   /**
    * Fetch podcast list.
@@ -56,23 +62,21 @@ function PodcastList() {
    * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) or fetch it if necessary.
    */
   useEffect(() => {
-    checkPodcastsStorage();
-  }, [checkPodcastsStorage]);
+    const storedPodcasts = checkPodcastsStorage();
 
-  /**
-   * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) or fetch it if necessary.
-   */
-  useEffect(() => {
-    setSelectedPodcast(null);
-    loadingHandler(true);
-    if (podcasts?.length > 0) {
-      // No need to refetch, use available localStorage podcasts data
-      loadingHandler(false);
-    } else if (podcasts?.length === 0) {
-      // Fetch podcasts data
-      getPodcastData();
+    if (storedPodcasts) {
+      setSelectedPodcast(null);
+      // loadingHandler(true);
+      if (storedPodcasts?.length > 0) {
+        // No need to refetch, use available localStorage podcasts data
+        loadingHandler(false);
+        setCurrentPodcasts(storedPodcasts);
+      } else if (storedPodcasts?.length === 0) {
+        // Fetch podcasts data
+        getPodcastData();
+      }
     }
-  }, [podcasts, getPodcastData, loadingHandler, setSelectedPodcast]);
+  }, []);
 
   /**
    * Update loading context.
@@ -94,10 +98,10 @@ function PodcastList() {
         id: podcast.id.attributes["im:id"],
         description: podcast.summary.label,
       }));
-
-      setPodcasts(podcastsParsed || []);
+      setCurrentPodcasts(podcastsParsed || []);
+      savePodcasts(podcastsParsed || []);
     }
-  }, [data, loading, loadingHandler, setPodcasts]);
+  }, [data, loading, loadingHandler]);
 
   return (
     <>
@@ -124,6 +128,7 @@ function PodcastList() {
               className={classes.podcastCard}
               onClick={() => {
                 setSelectedPodcast(podcast);
+                setPodcasts(currentPodcasts);
               }}
             >
               <PodcastCard podcast={podcast}></PodcastCard>

@@ -10,53 +10,39 @@ import classes from "../styles/Episode.module.css";
 function Episode() {
   const params = useParams();
   const { loadingHandler } = useContext(LoadingContext);
-  const {
-    selectedPodcast,
-    checkPodcastsStorage,
-    selectedEpisode,
-    checkEpisodeStorage,
-  } = useContext(PodcastsContext);
+  const { selectedEpisode, checkEpisodeStorage } = useContext(PodcastsContext);
   const navigate = useNavigate();
 
   /**
    * Checks storage when loading component.
    */
   useEffect(() => {
-    if (!selectedPodcast) {
-      checkPodcastsStorage();
-    }
-    if (!selectedEpisode) {
-      checkEpisodeStorage();
-    }
-  }, [
-    selectedPodcast,
-    selectedEpisode,
-    checkPodcastsStorage,
-    checkEpisodeStorage,
-  ]);
+    // const storedPodcasts = checkPodcastsStorage();
+    const storedEpisode = checkEpisodeStorage();
 
-  /**
-   * Checks if there is data for the episode, if it is not set, go back to podcast list.
-   */
-  useEffect(() => {
-    if (selectedEpisode) {
-      if (+selectedEpisode.id === +params.episodeId) {
+    if (storedEpisode) {
+      if (+storedEpisode.id === +params.episodeId) {
         loadingHandler(false);
       } else {
         // No episode data, return to podcast-list
         navigate("/");
       }
     }
-  }, [selectedEpisode, params.episodeId, loadingHandler, navigate]);
+  }, []);
 
-  /**
-   * When the episode is loaded, set loading to false.
-   */
-  useEffect(() => {
-    if (selectedEpisode) {
-      loadingHandler(false);
-    }
-  }, [selectedEpisode, loadingHandler]);
+  // /**
+  //  * Checks if there is data for the episode, if it is not set, go back to podcast list.
+  //  */
+  // useEffect(() => {
+  //   if (selectedEpisode) {
+  //     if (+selectedEpisode.id === +params.episodeId) {
+  //       loadingHandler(false);
+  //     } else {
+  //       // No episode data, return to podcast-list
+  //       navigate("/");
+  //     }
+  //   }
+  // }, [selectedEpisode, params.episodeId, loadingHandler, navigate]);
 
   /**
    * Helper to allow insert the episode description as HTML.

@@ -19,14 +19,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start:production": "npx serve -s build",
     "lint": "npx eslint ./src/.",
-    "test": "react-scripts test",
-    "test:coverage": "react-scripts test --coverage",
+    "test": "react-scripts test ./",
+    "test:coverage": "react-scripts test --coverage ./",
     "e2e": "npx cypress run",
     "e2e:watch": "npx cypress open",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://itunes.apple.com/us/rss",
   "eslintConfig": {
     "extends": [
       "react-app",

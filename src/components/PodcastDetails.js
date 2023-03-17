@@ -26,27 +26,15 @@ function PodcastDetails() {
    * Check storage when loading component.
    */
   useEffect(() => {
-    checkPodcastsStorage();
-  }, [checkPodcastsStorage]);
+    const storedPodcasts = checkPodcastsStorage();
 
-  /**
-   * Fetch podcast details.
-   */
-  const getPodcastDetailsData = useCallback(() => {
-    sendRequest(url, "list");
-  }, [url, sendRequest]);
-
-  /**
-   * Check if there is podcast info in localStorage, use it if exists and is not outdate (1 day old) or fetch it if necessary.
-   */
-  useEffect(() => {
-    if (podcasts) {
+    if (storedPodcasts) {
       loadingHandler(true);
-      if (podcasts.length === 0) {
+      if (storedPodcasts.length === 0) {
         // No podcasts data, return to podcast-list
         navigate("/");
       } else {
-        let selectedPodcastFound = podcasts?.find(
+        let selectedPodcastFound = storedPodcasts?.find(
           (podcast) => podcast.id === params.podcastId
         );
 
@@ -61,14 +49,14 @@ function PodcastDetails() {
         }
       }
     }
-  }, [
-    podcasts,
-    params.podcastId,
-    loadingHandler,
-    navigate,
-    getPodcastDetailsData,
-    setSelectedPodcast,
-  ]);
+  }, []);
+
+  /**
+   * Fetch podcast details.
+   */
+  const getPodcastDetailsData = useCallback(() => {
+    sendRequest(url, "list");
+  }, [url, sendRequest]);
 
   /**
    * Parse fetched data.
