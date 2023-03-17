@@ -27,7 +27,7 @@ In this version the loading times can be pretty long because of the need of usin
 
 In the project directory, you can run:
 
-### `npm start`
+#### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -35,7 +35,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm run build`
+#### `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -46,42 +46,42 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
-### `npm run build:prod`
+#### `npm run build:prod`
 
 Builds the app for production to the `build` folder with the `prod` environment. Use this build to deploy the application.
 
 
-### `npm run start:prod`
+#### `npm run start:prod`
 
 Builds the app for production to the `build` folder with the `prod` environment and serves it locally.
 
 
-### `npm run start:prod`
+#### `npm run lint`
 
 Runs `eslint` to find errors and problems in code style.\
 
 
-### `npm run test`
+#### `npm run test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 
-### `npm run test:coverage`
+#### `npm run test:coverage`
 
 Launches the test runner in the interactive watch mode but showing also the coverage report.
 
 
-### `npm run e2e`
+#### `npm run e2e`
 
 Launches the e2e test runner ([Cypress](https://docs.cypress.io/guides/component-testing/react/quickstart)) in the console with a headless browser.
 
 
-### `npm run e2e:watch`
+#### `npm run e2e:watch`
 
 Launches the e2e test runner ([Cypress](https://docs.cypress.io/guides/component-testing/react/quickstart)) in watch mode with an interactive browser.
 
-### `npm run deploy`
+#### `npm run deploy`
 
 Builds the app with the `prod`environment and deploys it to [Firebase](https://firebase.google.com/) hosting.
 
