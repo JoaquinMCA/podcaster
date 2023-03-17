@@ -7,6 +7,7 @@ import useFetch from "../hooks/useFetch";
 import LoadingContext from "../store/loading-context";
 import PodcastsContext from "../store/podcasts-context";
 
+import environment from "../environment";
 import classes from "../styles/PodcastList.module.css";
 
 function PodcastList() {
@@ -17,7 +18,9 @@ function PodcastList() {
     setPodcasts,
     setSelectedPodcast,
   } = useContext(PodcastsContext);
-  const url = "list/toppodcasts/limit=100/genre=1310/json";
+  const url = environment.production
+    ? `${environment.corsUrl}${environment.podcastListUrl}`
+    : environment.podcastListUrl;
   const { data, loading, error, sendRequest } = useFetch();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -89,17 +92,21 @@ function PodcastList() {
    * Parse fetched data.
    */
   useEffect(() => {
-    if (data && data.feed) {
-      loadingHandler(loading);
-      const podcastsParsed = data?.feed?.entry?.map((podcast) => ({
-        name: podcast["im:name"].label,
-        author: podcast["im:artist"].label,
-        img: podcast["im:image"]?.[podcast["im:image"].length - 1]?.label,
-        id: podcast.id.attributes["im:id"],
-        description: podcast.summary.label,
-      }));
-      setCurrentPodcasts(podcastsParsed || []);
-      savePodcasts(podcastsParsed || []);
+    if (data) {
+      const parsedData = environment.parseFn(data);
+
+      if (parsedData && parsedData.feed) {
+        const podcastsParsed = parsedData?.feed?.entry?.map((podcast) => ({
+          name: podcast["im:name"].label,
+          author: podcast["im:artist"].label,
+          img: podcast["im:image"]?.[podcast["im:image"].length - 1]?.label,
+          id: podcast.id.attributes["im:id"],
+          description: podcast.summary.label,
+        }));
+        setCurrentPodcasts(podcastsParsed || []);
+        savePodcasts(podcastsParsed || []);
+        loadingHandler(false);
+      }
     }
   }, [data, loading, loadingHandler]);
 

@@ -19,14 +19,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "start:production": "npx serve -s build",
+    "build:prod": "REACT_APP_STAGE=prod react-scripts build",
+    "start:prod": "REACT_APP_STAGE=prod react-scripts build && npx serve -s build",
     "lint": "npx eslint ./src/.",
     "test": "react-scripts test ./",
     "test:coverage": "react-scripts test --coverage ./",
     "e2e": "npx cypress run",
     "e2e:watch": "npx cypress open",
+    "deploy": "REACT_APP_STAGE=prod react-scripts build && firebase deploy",
     "eject": "react-scripts eject"
   },
+  "proxy": "https://itunes.apple.com/us/rss",
   "eslintConfig": {
     "extends": [
       "react-app",

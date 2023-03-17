@@ -7,11 +7,20 @@ import PodcastsContext from "../store/podcasts-context";
 import Card from "./Card";
 import Image from "./Image";
 
+import environment from "../environment";
 import classes from "../styles/PodcastDetails.module.css";
 
 function PodcastDetails() {
   const params = useParams();
-  const url = `details/lookup?id=${params.podcastId}&media=podcast&entity=podcastEpisode&limit=2000`;
+  const url = environment.production
+    ? `${environment.corsUrl}${encodeURIComponent(
+        environment.podcastEpisodesBaseUrl +
+          params.podcastId +
+          environment.podcastEpisodesParams
+      )}`
+    : environment.podcastEpisodesBaseUrl +
+      params.podcastId +
+      environment.podcastEpisodesParams;
   const { data, loading, sendRequest } = useFetch();
   const { loadingHandler } = useContext(LoadingContext);
   const {
@@ -55,7 +64,7 @@ function PodcastDetails() {
    * Fetch podcast details.
    */
   const getPodcastDetailsData = useCallback(() => {
-    sendRequest(url, "list");
+    sendRequest(url, "details");
   }, [url, sendRequest]);
 
   /**
@@ -63,17 +72,19 @@ function PodcastDetails() {
    */
   useEffect(() => {
     if (data) {
+      const parsedData = environment.parseFn(data);
+
       loadingHandler(false);
 
       let selectedPodcast = podcasts.find(
         (podcast) => podcast.id === params.podcastId
       );
 
-      if (data?.results[0] && !data.results[0].episodeUrl) {
-        data.results.shift();
+      if (parsedData?.results[0] && !parsedData.results[0].episodeUrl) {
+        parsedData.results.shift();
       }
 
-      const episodesParsed = data?.results?.map((episode) => {
+      const episodesParsed = parsedData?.results?.map((episode) => {
         return {
           id: episode.trackId,
           name: episode.trackName,
@@ -87,7 +98,7 @@ function PodcastDetails() {
 
       selectedPodcast = {
         ...selectedPodcast,
-        episodesCount: data.resultCount || episodesParsed.length,
+        episodesCount: parsedData.resultCount || episodesParsed.length,
         episodes: episodesParsed,
       };
       setSelectedPodcast(selectedPodcast);

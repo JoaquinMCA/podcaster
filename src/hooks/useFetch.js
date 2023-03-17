@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 /**
  * Hook to fetch data from APIs.
@@ -13,31 +13,34 @@ const useFetch = () => {
   /**
    * Single request.
    */
-  const sendRequest = useCallback((url, requestType) => {
-    setLoading(true);
-    setError(false);
-    setReqType(requestType);
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
+  const sendRequest = useCallback(
+    (url, requestType, contentType = "application/json") => {
+      setLoading(true);
+      setError(false);
+      setReqType(requestType);
+      fetch(url, {
+        headers: {
+          "Content-Type": contentType,
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.error) {
+            setError(true);
+          } else {
+            setData(res);
+          }
+        })
+        .catch((err) => {
           setError(true);
-        } else {
-          setData(res);
-        }
-      })
-      .catch((err) => {
-        setError(true);  
-        setErrors((prevValue) => {
-          return [...prevValue, err];
-        });
-      })
-      .finally(() => setLoading(false));
-  }, []);
+          setErrors((prevValue) => {
+            return [...prevValue, err];
+          });
+        })
+        .finally(() => setLoading(false));
+    },
+    []
+  );
 
   /**
    * Multiple requests simultaneously.
